@@ -1,0 +1,107 @@
+#!/bin/bash
+
+clear
+
+banner() {
+printf "\e[0m\n"
+printf "\e[1;93m _ ___  ___ ____ ____ ____ _  _ ____ ____ \e[0m\n"
+printf "\e[1;93m | |__]  |  |__/ |__| |    |_/  |___ |__/ \e[0m\n"
+printf "\e[1;93m | |     |  |  \ |  | |___ | \_ |___ |  \ \e[0m\n"
+printf "\e[0m\n"
+printf "\e[0m\e[1;37m    Alfin Kresna \e[0m\n"
+
+}
+menu() {
+printf "\e[0m\n"
+printf "\e[0m\e[1;31m  [\e[0m\e[1;37m1\e[0m\e[1;31m]\e[0m\e[1;37m Track Ip\e[0m\n"
+printf "\e[0m\e[1;31m  [\e[0m\e[1;37m2\e[0m\e[1;31m]\e[0m\e[1;37m Keluar\e[0m\n"
+printf "\e[0m\n"
+read -p $'  \e[1;31m[\e[0m\e[1;37m+\e[0m\e[1;31m]\e[0m\e[1;37m Pilih Opsi \e[0m\e[1;37m: \e[0m\e[1;93m\en' option
+
+if   [[ $option == 1 || $option == 01 ]]; then
+useripaddr
+elif [[ $option == 2 || $option == 02 ]]; then
+sleep 1
+printf "\e[0m\n"
+printf "\e[0m\n"
+exit 1
+
+else
+printf "  \e[1;91m[\e[0m\e[1;97m!\e[0m\e[1;91m]\e[0m\e[1;37m Opsi Salah \e[0m\n"
+sleep 1
+banner
+menu
+fi
+
+}
+
+useripaddr() {
+
+printf "\e[0m\n"
+printf "\e[0m\n"
+printf "\e[0m\n"
+read -p $'  \e[1;31m[\e[0m\e[1;37m+\e[0m\e[1;31m]\e[0m\e[1;37m Masukan Alamat IP \e[0m\e[1;37m: \e[0m\e[1;93m\en' useripaddress
+
+ipaddripapico=$(curl -s "https://ipapi.co/$useripaddress/json" -L)
+ipaddripapicom=$(curl -s "http://ip-api.com/json/$useripaddress" -L)
+userip=$(echo $ipaddripapico | grep -Po '(?<="ip":)[^,]*' | tr -d '[]"')
+usercity=$(echo $ipaddripapico | grep -Po '(?<="city":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+useregion=$(echo $ipaddripapico | grep -Po '(?<="region":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+usercountry=$(echo $ipaddripapico | grep -Po '(?<="country_name":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+userlat=$(echo $ipaddripapicom | grep -Po '(?<="lat":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+userlon=$(echo $ipaddripapicom | grep -Po '(?<="lon":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+usertime=$(echo $ipaddripapicom | grep -Po '(?<="timezone":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+userpostal=$(echo $ipaddripapicom | grep -Po '(?<="zip":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+userisp=$(echo $ipaddripapico | grep -Po '(?<="org":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+userasn=$(echo $ipaddripapico | grep -Po '(?<="asn":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+usercountrycode=$(echo $ipaddripapico | grep -Po '(?<="country_code":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+usercurrency=$(echo $ipaddripapico | grep -Po '(?<="currency":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+userlanguage=$(echo $ipaddripapico | grep -Po '(?<="languages":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+usercalling=$(echo $ipaddripapico | grep -Po '(?<="country_calling_code":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
+
+printf "\e[0m\n"
+printf "\e[0m\n"
+printf "  \e[0m\e[1;93m > Alamat IP     \e[0m\e[1;93m:\e[0m\e[1;37m   $userip\e[0m\n"
+printf "  \e[0m\e[1;93m > Kota          \e[0m\e[1;93m:\e[0m\e[1;37m   $usercity\e[0m\n"
+printf "  \e[0m\e[1;93m > Daerah        \e[0m\e[1;93m:\e[0m\e[1;37m   $useregion\e[0m\n"
+printf "  \e[0m\e[1;93m > Negara        \e[0m\e[1;93m:\e[0m\e[1;37m   $usercountry\e[0m\n"
+printf "\e[0m\n"
+printf "  \e[0m\e[1;93m > Latitude      \e[0m\e[1;93m:\e[0m\e[1;37m    $userlat\e[0m\n"
+printf "  \e[0m\e[1;93m > Longitude     \e[0m\e[1;93m:\e[0m\e[1;37m    $userlon\e[0m\n"
+printf "  \e[0m\e[1;93m > Zona Waktu    \e[0m\e[1;93m:\e[0m\e[1;37m    $usertime\e[0m\n"
+printf "  \e[0m\e[1;93m > Kode Pos      \e[0m\e[1;93m:\e[0m\e[1;37m    $userpostal\e[0m\n"
+printf "\e[0m\n"
+printf "  \e[0m\e[1;93m > ISP           \e[0m\e[1;93m:\e[0m\e[1;37m   $userisp\e[0m\n"
+printf "  \e[0m\e[1;93m > ASN           \e[0m\e[1;93m:\e[0m\e[1;37m   $userasn\e[0m\n"
+printf "\e[0m\n"
+printf "  \e[0m\e[1;93m > Kode Negara   \e[0m\e[1;93m:\e[0m\e[1;37m   $usercountrycode\e[0m\n"
+printf "  \e[0m\e[1;93m > Mata Uang     \e[0m\e[1;93m:\e[0m\e[1;37m   $usercurrency\e[0m\n"
+printf "  \e[0m\e[1;93m > Bahasa        \e[0m\e[1;93m:\e[0m\e[1;37m   $userlanguage\e[0m\n"
+printf "  \e[0m\e[1;93m > Kode Telepon  \e[0m\e[1;93m:\e[0m\e[1;37m   $usercalling\e[0m\n"
+printf "\e[0m\n"
+printf "  \e[0m\e[1;93m > GOOGLE Maps   \e[0m\e[1;93m:\e[0m\e[1;37m  https://maps.google.com/?q=$userlat,$userlon\e[0m\n"
+sleep 5
+printf "\e[0m\n"
+printf "  \e[0m\e[1;91m[\e[0m\e[1;97m1\e[0m\e[1;91m]\e[0m\e[1;37m Kembali ke Menu Utama\e[0m\n"
+printf "  \e[0m\e[1;91m[\e[0m\e[1;97m2\e[0m\e[1;91m]\e[0m\e[1;37m Keluar\e[0m\n"
+printf "\e[0m\n"
+read -p $'  \e[1;31m[\e[0m\e[1;37m+\e[0m\e[1;31m]\e[0m\e[1;37m Pilih Opsi \e[0m\e[1;37m: \e[0m\e[1;93m\en' mainorexit2
+
+if [[ $mainorexit2 == 1 || $mainorexit2 == 01 ]]; then
+banner
+menu
+elif [[ $mainorexit2 == 2 || $mainorexit2 == 02 ]]; then
+printf "\e[0m\n"
+printf "\e[0m\n"
+exit 1
+
+else
+printf "  \e[1;91m[\e[0m\e[1;97m!\e[0m\e[1;91m]\e[0m\e[1;37m Opsi Salah \e[0m\n"
+sleep 1
+banner
+menu
+fi
+
+}
+banner
+menu
