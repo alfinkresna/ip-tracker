@@ -1,6 +1,3 @@
 # ip-tracker
-
-Cara Penggunaan :
-
-```./iptracker```
+IP Tracker
 
